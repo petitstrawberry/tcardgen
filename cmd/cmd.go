@@ -188,13 +188,15 @@ func generateTCard(streams IOStreams, contentPath, outPath string, tpl image.Ima
 	); err != nil {
 		return err
 	}
-	if err := c.DrawTextAtPoint(
-		strings.ToUpper(fm.Category),
-		*cnf.Category.Start,
-		canvas.FgHexColor(cnf.Category.FgHexColor),
-		canvas.FontFaceFromFFA(ffa, cnf.Category.FontStyle, cnf.Category.FontSize),
-	); err != nil {
-		return err
+	if fm.Category != "" {
+		if err := c.DrawTextAtPoint(
+			strings.ToUpper(fm.Category),
+			*cnf.Category.Start,
+			canvas.FgHexColor(cnf.Category.FgHexColor),
+			canvas.FontFaceFromFFA(ffa, cnf.Category.FontStyle, cnf.Category.FontSize),
+		); err != nil {
+			return err
+		}
 	}
 	if err := c.DrawTextAtPoint(
 		fmt.Sprintf("%s%s%s", fm.Author, cnf.Info.Separator, fm.Date.Format("Jan 2")),
@@ -204,18 +206,19 @@ func generateTCard(streams IOStreams, contentPath, outPath string, tpl image.Ima
 	); err != nil {
 		return err
 	}
-	if err := c.DrawBoxTexts(
-		tags,
-		*cnf.Tags.Start,
-		canvas.FgHexColor(cnf.Tags.FgHexColor),
-		canvas.BgHexColor(cnf.Tags.BgHexColor),
-		canvas.BoxPadding(*cnf.Tags.BoxPadding),
-		canvas.BoxSpacing(*cnf.Tags.BoxSpacing),
-		canvas.BoxAlign(cnf.Tags.BoxAlign),
-		canvas.FontFaceFromFFA(ffa, cnf.Tags.FontStyle, cnf.Tags.FontSize),
-	); err != nil {
-		return err
+	if fm.Tags != "" {
+		if err := c.DrawBoxTexts(
+			tags,
+			*cnf.Tags.Start,
+			canvas.FgHexColor(cnf.Tags.FgHexColor),
+			canvas.BgHexColor(cnf.Tags.BgHexColor),
+			canvas.BoxPadding(*cnf.Tags.BoxPadding),
+			canvas.BoxSpacing(*cnf.Tags.BoxSpacing),
+			canvas.BoxAlign(cnf.Tags.BoxAlign),
+			canvas.FontFaceFromFFA(ffa, cnf.Tags.FontStyle, cnf.Tags.FontSize),
+		); err != nil {
+			return err
+		}
 	}
-
 	return c.SaveAsPNG(outPath)
 }
