@@ -206,7 +206,7 @@ func generateTCard(streams IOStreams, contentPath, outPath string, tpl image.Ima
 	); err != nil {
 		return err
 	}
-	if fm.Tags != "" {
+	if len(fm.Tags) > 0 {
 		if err := c.DrawBoxTexts(
 			tags,
 			*cnf.Tags.Start,
